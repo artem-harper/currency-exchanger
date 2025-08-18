@@ -2,7 +2,6 @@ package dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
 @Value
@@ -12,6 +11,6 @@ import lombok.Value;
 public class CurrencyDto {
     int id;
     String code;
-    String fullName;
+    String name;
     String sign;
 }
