@@ -1,7 +1,6 @@
-package servlets;
+package servlets.exchange;
 
 import com.google.gson.Gson;
-import dao.ExchangeRateDao;
 import dto.CurrencyDto;
 import dto.exchangeDto.ExchangeRequestDto;
 import exceptions.Error;
@@ -11,7 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import services.ExchangeRateService;
 import services.ExchangeService;
 
 import java.io.IOException;
@@ -34,8 +32,6 @@ public class ExchangeServlet extends HttpServlet {
                 .base(CurrencyDto.builder().code(baseCurrency).build())
                 .target(CurrencyDto.builder().code(targetCurrency).build())
                 .amount(amount).build();
-
-
        try {
             gson.toJson(exchangeService.exchange(exchangeRequestDto), resp.getWriter());
         } catch (SQLException e) {
