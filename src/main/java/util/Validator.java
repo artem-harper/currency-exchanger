@@ -4,6 +4,8 @@ import lombok.Getter;
 
 import lombok.experimental.UtilityClass;
 
+import java.math.BigDecimal;
+
 @UtilityClass
 public class Validator {
     @Getter
@@ -11,6 +13,7 @@ public class Validator {
     int MAX_NAME_LENGTH = 30;
     int MIN_NAME_LENGTH = 3;
     int CURRENT_SIGN_LENGTH = 4;
+    int MIN_RATE = 0;
     @Getter
     String message;
 
@@ -26,6 +29,10 @@ public class Validator {
     public static boolean isValidSign(String sign){
         message="Невверно введен знак";
         return sign.length() < CURRENT_SIGN_LENGTH ;
+    }
+    public static boolean isValidRate(BigDecimal rate){
+        message="Невверно введен курс";
+        return rate.compareTo(BigDecimal.ZERO) > 0;
     }
 
     public static boolean isValidRequest(String nameParam, String codeParam, String signParam) {

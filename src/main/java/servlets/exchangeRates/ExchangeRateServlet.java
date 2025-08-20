@@ -24,6 +24,16 @@ public class ExchangeRateServlet extends HttpServlet {
     private final ExchangeRateService exchangeRateService = ExchangeRateService.getInstance();
 
     @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getMethod();
+        if (!method.equals("PATCH")) {
+            super.service(req, resp);
+            return;
+        }
+        this.doPatch(req, resp);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String path = req.getPathInfo()
@@ -55,13 +65,24 @@ public class ExchangeRateServlet extends HttpServlet {
         String path = req.getPathInfo()
                 .replaceFirst("/", "");
 
-        BigDecimal rate = null;
-        String rateStr = getRate(req.getReader().readLine());
+        BigDecimal rate= null;
+
+
         try {
+            String rateStr = getRate(req.getReader().readLine());
             rate = BigDecimal.valueOf(Double.parseDouble(rateStr));
         }catch (NumberFormatException e){
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             gson.toJson(new Error("Некорректный ввод"), resp.getWriter());
+        }catch (IllegalArgumentException e){
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            gson.toJson(new Error("Курс отствует"), resp.getWriter());
+        }
+
+        if (!Validator.isValidRate(rate)){
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            gson.toJson(new Error(Validator.getMessage()), resp.getWriter());
+            return;
         }
 
 

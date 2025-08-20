@@ -41,16 +41,26 @@ public class ExchangeRatesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String baseCurrencyCode = req.getParameter("baseCurrencyCode");
         String targetCurrencyCode = req.getParameter("targetCurrencyCode");
-        BigDecimal rate = new BigDecimal(req.getParameter("rate"));
+
+        BigDecimal rate;
+
         try {
-            if (!Validator.isValidCode(baseCurrencyCode) || !Validator.isValidCode(targetCurrencyCode)) {
+            rate = new BigDecimal(req.getParameter("rate"));
+            if (!Validator.isValidCode(baseCurrencyCode) || !Validator.isValidCode(targetCurrencyCode) || !Validator.isValidRate(rate)) {
                 throw new ValidationException();
             }
         } catch(ValidationException e){
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             gson.toJson(new Error(Validator.getMessage()), resp.getWriter());
             return;
+        }catch (NumberFormatException e){
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            gson.toJson(new Error("Некорректный ввод"), resp.getWriter());
+            return;
         }
+
+
+
 
         ExchangeRateDto exchangeRateDto = ExchangeRateDto.builder()
                 .baseCurrencyDto(CurrencyDto.builder().code(baseCurrencyCode).build())

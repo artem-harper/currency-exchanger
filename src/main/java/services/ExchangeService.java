@@ -45,7 +45,7 @@ public class ExchangeService {
 
         if (targetCurrencyCode.equals(exchangeRateDto.getBaseCurrencyDto().getCode())){
 
-            BigDecimal reversedRate = new BigDecimal(1).divide(exchangeRateDto.getRate(), 2, RoundingMode.HALF_UP);
+            BigDecimal reversedRate = new BigDecimal(1).divide(exchangeRateDto.getRate(), 6, RoundingMode.HALF_UP);
             convertedAmount = reversedRate.multiply(amount);
 
             return buildExchangeResponse(exchangeRateDto.getTargetCurrencyDto(), exchangeRateDto.getBaseCurrencyDto(), reversedRate, amount, convertedAmount);
@@ -70,7 +70,7 @@ public class ExchangeService {
             ExchangeRateDto targetExchange = exchangeRateMapper.mapToDto(maybeTargetExchange.get());
 
             BigDecimal newRate = targetExchange.getRate()
-                    .divide(baseExchange.getRate(), 2, RoundingMode.HALF_UP);
+                    .divide(baseExchange.getRate(), 6, RoundingMode.HALF_UP);
             convertedAmount = newRate.multiply(amount);
 
             return buildExchangeResponse(baseExchange.getTargetCurrencyDto(), targetExchange.getTargetCurrencyDto(), newRate, amount, convertedAmount);

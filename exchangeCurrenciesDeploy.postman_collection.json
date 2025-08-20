@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "4cfcbd9b-d022-4b08-b48a-ba595f0ac1ee",
+		"name": "exchangeCurrenciesDeploy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47233350",
+		"_collection_link": "https://artikmay838-8631044.postman.co/workspace/first~a3a2d486-1dee-4948-aacd-14edd92d1fbb/collection/47233350-4cfcbd9b-d022-4b08-b48a-ba595f0ac1ee?action=share&source=collection_link&creator=47233350"
+	},
+	"item": [
+		{
+			"name": "GET CURRENCY",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/currency/USD",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"currency",
+						"USD"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL CURENCIES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/currencies",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"currencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD NEW CURRENCY",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Ukrainian currency",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "UAH",
+							"type": "text"
+						},
+						{
+							"key": "sign",
+							"value": "₴",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/currencies",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"currencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET EXCHANGE RATE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/exchangeRate/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"exchangeRate",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL EXCHANGE RATES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/exchangeRates",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"exchangeRates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD NEW EXCHANGE RATE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "baseCurrencyCode",
+							"value": "USD",
+							"type": "text"
+						},
+						{
+							"key": "targetCurrencyCode",
+							"value": "UAH",
+							"type": "text"
+						},
+						{
+							"key": "rate",
+							"value": "12",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/exchangeRates",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"exchangeRates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE EXCHANGE RATE",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "rate",
+							"value": "87",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/exchangeRate/USDRUB",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"exchangeRate",
+						"USDRUB"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EXCHANGE CURRENCIES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/exchange?from=USD&to=RUB&amount=898.8",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"exchange"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "USD"
+						},
+						{
+							"key": "to",
+							"value": "RUB"
+						},
+						{
+							"key": "amount",
+							"value": "898.8"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

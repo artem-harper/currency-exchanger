@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import services.ExchangeService;
+import util.Validator;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -26,7 +27,27 @@ public class ExchangeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String baseCurrency = req.getParameter("from");
         String targetCurrency = req.getParameter("to");
-        BigDecimal amount = new BigDecimal(req.getParameter("amount"));
+        BigDecimal amount;
+
+        try {
+            amount = new BigDecimal(req.getParameter("amount"));
+        }catch (NumberFormatException e){
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            gson.toJson(new Error("Некорректный ввод"), resp.getWriter());
+            return;
+        }
+
+        if (amount.compareTo(BigDecimal.ZERO) < 0){
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            gson.toJson(new Error("Неверно введено количество"), resp.getWriter());
+            return;
+        }
+
+        if (!Validator.isValidCode(baseCurrency) && !Validator.isValidCode(targetCurrency)){
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            gson.toJson(new Error(Validator.getMessage()), resp.getWriter());
+            return;
+        }
 
         ExchangeRequestDto exchangeRequestDto = ExchangeRequestDto.builder()
                 .base(CurrencyDto.builder().code(baseCurrency).build())
